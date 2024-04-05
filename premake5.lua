@@ -14,7 +14,7 @@ files
 
 includedirs
 {
-  "Jolt"
+  "."
 }
 
 filter "system:windows"
