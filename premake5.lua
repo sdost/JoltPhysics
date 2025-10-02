@@ -1,6 +1,8 @@
 project "joltphysics"
-kind "StaticLib"
-language "C++"
+  kind "StaticLib"
+  language "C++"
+  cppdialect "C++17"
+  staticruntime "off"
 
 targetdir("bin/" .. outputdir .. "/%{prj.name}")
 objdir("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -18,20 +20,30 @@ includedirs
 }
 
 filter "system:windows"
-systemversion "latest"
-cppdialect "C++17"
-staticruntime "off"
+  systemversion "latest"
 
-filter "system:linux"
-pic "On"
-systemversion "latest"
-cppdialect "C++17"
-staticruntime "off"
+  files { "Jolt/Jolt.natvis" }
+
 
 filter "configurations:Debug"
-runtime "Debug"
-symbols "on"
+  symbols "on"
+  optimize "off"
+
+  defines
+  {
+      "_DEBUG",
+      "JPH_DEBUG_RENDERER",
+      "JPH_FLOATING_POINT_EXCEPTIONS_ENABLED",
+      "JPH_ENABLE_ASSERTS"
+  }
 
 filter "configurations:Release"
-runtime "Release"
-optimize "on"
+  optimize "speed"
+  vectorextensions "AVX2"
+  isaextensions { "BMI", "POPCNT", "LZCNT", "F16C" }
+
+  defines
+  {
+      "JPH_DEBUG_RENDERER",
+      "JPH_FLOATING_POINT_EXCEPTIONS_ENABLED",
+  }
