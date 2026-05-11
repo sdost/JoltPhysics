@@ -25,9 +25,16 @@ filter "system:windows"
   files { "Jolt/Jolt.natvis" }
 
 
+-- SDE-8: Jolt stays optimized in Debug. We retain JPH_ENABLE_ASSERTS so
+-- contract violations still trip during testing; the integration with
+-- Seidr is rarely the thing being stepped through, and the per-frame
+-- physics-tick cost dominates the Debug build without optimization.
 filter "configurations:Debug"
   symbols "on"
-  optimize "off"
+  optimize "speed"
+  flags { "NoRuntimeChecks" }
+  vectorextensions "AVX2"
+  isaextensions { "BMI", "POPCNT", "LZCNT", "F16C" }
 
   defines
   {
