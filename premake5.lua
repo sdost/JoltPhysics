@@ -32,7 +32,7 @@ filter "system:windows"
 filter "configurations:Debug"
   symbols "on"
   optimize "speed"
-  flags { "NoRuntimeChecks" }
+  runtimechecks "Off"
   vectorextensions "AVX2"
   isaextensions { "BMI", "POPCNT", "LZCNT", "F16C" }
 
